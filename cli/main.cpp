@@ -337,7 +337,7 @@ int main( int argc, char** argv )
       j["gpuinfo"] = gpuinfo.get();
     }
     
-    std::cout << std::setw(2) << std::setfill( ' ' ) << j << std::endl;
+    std::cout << j.dump(2, ' ', true, json::error_handler_t::replace) << std::endl;
 
     fs::remove(outname);
 
