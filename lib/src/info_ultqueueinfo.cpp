@@ -67,7 +67,6 @@ struct ultQueueInfo {
 
             uint32_t data_count;
             read_var(data_count);
-            std::cout << "count: " << data_count;
 
             uint32_t real_data_size = ((_queues[i]._data_size * data_count) + 3) & ~0x03; // align to 4
 
@@ -85,13 +84,11 @@ struct ultQueueInfo {
 
             uint32_t data_size = _queues[i]._data_size * data_count;
             _queues[i]._data.resize(data_size);
-            std::cout << "data: ";
+
             for (uint32_t j = 0; j < data_size; ++j)
             {
                 read_var(_queues[i]._data[j]);
-                std::cout << " " << std::hex << _queues[i]._data[j];
             }
-            std::cout << std::endl;
             in.seekg(real_data_size - data_size, std::ios_base::cur);
 
         }
