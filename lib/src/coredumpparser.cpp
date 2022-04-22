@@ -21,11 +21,9 @@ namespace vita
 namespace coredump
 {
     parser::parser(std::string& filename) : _filename(filename) {
-        _reader = new ::ELFIO::elfio();
     }
     parser::parser(const char* filename) {
         _filename = std::string(filename);
-        _reader = new ::ELFIO::elfio();
     }
 
     parser::~parser() {}
@@ -33,19 +31,19 @@ namespace coredump
 
     bool parser::parse()
     {
-        if (!_reader->load(_filename))
+        if (!_reader.load(_filename))
         {
             return false;
         }
-        ELFIO::Elf_Half n = _reader->segments.size();
+        ELFIO::Elf_Half n = _reader.segments.size();
 
         for ( ELFIO::Elf_Half i = 0; i < n; ++i )
         {
-            ELFIO::segment* seg = _reader->segments[i];
+            ELFIO::segment* seg = _reader.segments[i];
             if (seg->get_type() == ELFIO::PT_NOTE)
             {
 
-                ELFIO::note_segment_accessor notes( *_reader, seg );
+                ELFIO::note_segment_accessor notes( _reader, seg );
                 ELFIO::Elf_Word  no_notes = notes.get_notes_num();
 
                 if ( no_notes > 0 )
@@ -75,8 +73,8 @@ namespace coredump
         {
             std::pair<uint32_t, uint32_t> idx = _getNoteIdx(note_type);
 
-            ELFIO::segment* seg = _reader->segments[idx.second];
-            ELFIO::note_segment_accessor notes( *_reader, seg );
+            ELFIO::segment* seg = _reader.segments[idx.second];
+            ELFIO::note_segment_accessor notes( _reader, seg );
 
             ELFIO::Elf_Word    type;
             std::string name;

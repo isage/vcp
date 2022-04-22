@@ -9,7 +9,7 @@
 #include <utility>
 #include <memory>
 
-//#include "elfio/elfio.hpp"
+#include "elfio/elfio.hpp"
 
 #include "info_corefileinfo.hpp"
 #include "info_hwinfo.hpp"
@@ -57,10 +57,6 @@
 namespace elf {
     enum class note;
 };
-
-namespace ELFIO {
-    class elfio;
-}
 
 namespace vita
 {
@@ -121,7 +117,7 @@ class parser
         std::unique_ptr<gpuInfo> getGpuInfo();
 
     private:
-        ::ELFIO::elfio *_reader;
+        ::ELFIO::elfio _reader;
         std::string _filename;
         std::unordered_map<elf::note, std::pair<uint32_t,uint32_t>> _notes;
         std::pair<uint32_t,uint32_t>& _getNoteIdx(elf::note type);
