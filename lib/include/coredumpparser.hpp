@@ -52,6 +52,7 @@
 #include "info_fiberinfo.hpp"
 #include "info_threadinfo.hpp"
 #include "info_threadreginfo.hpp"
+#include "info_gpuinfo.hpp"
 
 namespace elf {
     enum class note;
@@ -117,6 +118,7 @@ class parser
         std::unique_ptr<fiberInfo> getFiberInfo();
         std::unique_ptr<threadInfo> getThreadInfo();
         std::unique_ptr<threadRegInfo> getThreadRegInfo();
+        std::unique_ptr<gpuInfo> getGpuInfo();
 
     private:
         ::ELFIO::elfio *_reader;

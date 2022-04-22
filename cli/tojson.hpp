@@ -10,6 +10,8 @@ using json = nlohmann::json;
 "0x" << std::setw( width ) << std::setfill( '0' ) << std::hex << std::right
 #define DUMP_HEX_FORMAT( width ) \
 std::setw( width ) << std::setfill( '0' ) << std::hex << std::right
+#define DUMP_DEC_FORMAT( width ) \
+std::setw( width ) << std::setfill( '0' ) << std::dec << std::right
 
 template <typename T>
 inline std::string hextostring(uint8_t width, T t)
@@ -24,6 +26,14 @@ inline std::string hextostring0x(uint8_t width, T t)
 {
   std::ostringstream buf;
   buf << DUMP_HEX0x_FORMAT(width) << t;
+  return buf.str();
+}
+
+template <typename T>
+inline std::string dectostring(uint8_t width, T t)
+{
+  std::ostringstream buf;
+  buf << DUMP_DEC_FORMAT(width) << t;
   return buf.str();
 }
 
@@ -1102,7 +1112,22 @@ namespace coredump {
       i++;
     }
   }
-  
+
+  void to_json(json& j, vita::coredump::gpuInfo* p) {
+    j = json{ 
+      {"pid", hextostring0x(8, p->pid())},
+      {"flags", hextostring0x(8, p->flags())},
+      {
+        "date",
+        dectostring(2,p->day()) + "-" + dectostring(2,p->month()) + "-" + dectostring(4,p->year()) +
+        " " + dectostring(2,p->hour()) + ":" + dectostring(2,p->minute()) + ":" + dectostring(2,p->second()) + "." + std::to_string(p->microsecond())
+      },
+      {"soc_revision", hextostring0x(8, p->socRevision())},
+      {"mp_freq", p->mpFreq()},
+      {"core_freq", p->coreFreq()},
+      {"xbar_freq", p->xbarFreq()},
+    };
+  }
   
 }
 }

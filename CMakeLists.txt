@@ -59,6 +59,7 @@ set(SOURCES
   lib/src/info_fiberinfo.cpp
   lib/src/info_threadinfo.cpp
   lib/src/info_threadreginfo.cpp
+  lib/src/info_gpuinfo.cpp
 )
 
 add_library(vcp STATIC ${SOURCES})

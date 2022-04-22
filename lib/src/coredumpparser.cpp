@@ -137,6 +137,7 @@ namespace coredump
     INFO_GETTER(getFiberInfo, fiberInfo, FIBER_INFO)
     INFO_GETTER(getThreadInfo, threadInfo, THREAD_INFO)
     INFO_GETTER(getThreadRegInfo, threadRegInfo, THREAD_REG_INFO)
+    INFO_GETTER(getGpuInfo, gpuInfo, GPU_INFO)
 
 }; // coredump
 }; // vita

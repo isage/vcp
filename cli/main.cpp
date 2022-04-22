@@ -331,6 +331,12 @@ int main( int argc, char** argv )
       j["thread_registers"] = threadreginfo->threadRegs();
     }
     
+    auto gpuinfo = parser.getGpuInfo();
+    if (gpuinfo)
+    {
+      j["gpuinfo"] = gpuinfo.get();
+    }
+    
     std::cout << std::setw(2) << std::setfill( ' ' ) << j << std::endl;
 
     fs::remove(outname);
