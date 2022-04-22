@@ -47,7 +47,6 @@ int main( int argc, char** argv )
     }
 
     std::string outname = fs::temp_directory_path() / "coredump.tmp";
-    std::cout << outname << std::endl;
 
     decompress_file(argv[1], outname);
 
@@ -98,20 +97,19 @@ int main( int argc, char** argv )
       j["tty2"] = ttyinfo2->data();
     }
 
-    // TODO:
     auto screenshotinfo = parser.getScreenshotInfo();
     if (screenshotinfo)
     {
-        std::ofstream ofs;
-        ofs.open("screen.raw", std::ofstream::out | std::ofstream::binary);
-        ofs.write(reinterpret_cast<const char*>(screenshotinfo->data().data()), screenshotinfo->data().size());
-        ofs.flush();
-        ofs.close();
+        if (screenshotinfo->data().size() > 0)
+        {
+            std::ofstream ofs;
+            ofs.open("screen.raw", std::ofstream::out | std::ofstream::binary);
+            ofs.write(reinterpret_cast<const char*>(screenshotinfo->data().data()), screenshotinfo->data().size());
+            ofs.flush();
+            ofs.close();
+        }
 
-        std::cout << "\n\n---------------------------------------------------------------------" << std::endl
-            << "SCREENSHOT:" << std::endl;
-        std::cout << std::dec << screenshotinfo->width() << "x" << screenshotinfo->height() << ", written to screen.raw" << std::endl;
-        std::cout << screenshotinfo->data().size() << std::endl;
+        j["screenshot"] = screenshotinfo.get();
     }
 
     auto sysdevinfo = parser.getSysDeviceInfo();

@@ -77,6 +77,17 @@ namespace coredump {
         };
   }
   
+  void to_json(json& j, vita::coredump::screenshotInfo* p) {
+    j = json{
+      {"width", p->width()},
+      {"height", p->height()},
+    };
+    if (p->data().size() > 0)
+    {
+      j["file"] = "screen.raw";
+    }
+  }
+  
   void to_json(json& j, vita::coredump::systemInfo* p) {
     std::ostringstream psid;
     std::ostringstream hwid;
