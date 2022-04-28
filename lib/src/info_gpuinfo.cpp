@@ -31,7 +31,8 @@ struct gpuInfo { // size 0x3038 + 4 (on 1.6 proto), 0x3400 on 3.60
     uint32_t unk34; // 0x34 ex: 0x018F - count of something, hardcoded if exists. sets flags | 2
     uint32_t unk38; // 0x38 ex: 0x6D - count of something, hardcoded if exists. sets flags | 0x24
 
-    // { uint32_t offset, uint32_t value } X unk30 follows
+    // { uint32_t offset, uint32_t value } * unk30 follows
+    // { uint32_t offset, uint32_t value1, uint32_t value2, uint32_t value3, uint32_t value4 } * unk34 follows
 };
 
 */
