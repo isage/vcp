@@ -74,7 +74,7 @@ target_include_directories(
 )
 
 
-add_subdirectory(cli)
+add_subdirectory(cli/jsondump)
 
 
 # If this is the top level project, add in logic to install vcp
