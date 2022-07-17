@@ -6,7 +6,7 @@ if(NOT DEFINED PROJECT_NAME)
   set(IS_TOP_PROJECT TRUE)
 endif()
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
@@ -75,6 +75,7 @@ target_include_directories(
 
 
 add_subdirectory(cli/jsondump)
+add_subdirectory(cli/backtrace)
 
 
 # If this is the top level project, add in logic to install vcp

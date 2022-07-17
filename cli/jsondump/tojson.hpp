@@ -1077,6 +1077,7 @@ namespace coredump {
       };
     }  
   }
+
   
   void to_json(json& j, vita::coredump::threadRegInfoThreadReg p) {
     j = json{ 
@@ -1110,6 +1111,15 @@ namespace coredump {
     {
       j["registers"]["neon"][i] = hextostring0x(16, r);
       i++;
+    }
+  }
+
+  void to_json(json& j, std::unordered_map<uint32_t, vita::coredump::threadRegInfoThreadReg> p) {
+    j = json{};
+    int i = 0;
+    for(auto reg: p) {
+        j[i] = reg.second;
+        i++;
     }
   }
 

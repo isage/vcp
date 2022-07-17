@@ -78,31 +78,33 @@ struct threadRegInfo {
         in.seekg(4, std::ios_base::beg);
         uint32_t count;
         read_var(count);
-        _thread_regs.resize(count);
+//        _thread_regs.resize(count);
 
         for (uint32_t i = 0; i < count; ++i)
         {
+            threadRegInfoThreadReg reg;
             in.seekg(4, std::ios_base::cur);
 
-            read_var(_thread_regs[i]._thread_id);
-            read_array(_thread_regs[i]._registers, 16*4);
-            read_var(_thread_regs[i]._CPSR);
-            read_var(_thread_regs[i]._FPSCR);
-            read_var(_thread_regs[i]._TPIDRURO);
-            read_array(_thread_regs[i]._neon, 32*8);
-            read_var(_thread_regs[i]._FPEXC);
-            read_var(_thread_regs[i]._TPIDRURW);
-            read_var(_thread_regs[i]._CPACR);
-            read_var(_thread_regs[i]._DACR);
-            read_var(_thread_regs[i]._DBGDSCR);
-            read_var(_thread_regs[i]._IFSR);
-            read_var(_thread_regs[i]._IFAR);
-            read_var(_thread_regs[i]._DFSR);
-            read_var(_thread_regs[i]._DFAR);
+            read_var(reg._thread_id);
+            read_array(reg._registers, 16*4);
+            read_var(reg._CPSR);
+            read_var(reg._FPSCR);
+            read_var(reg._TPIDRURO);
+            read_array(reg._neon, 32*8);
+            read_var(reg._FPEXC);
+            read_var(reg._TPIDRURW);
+            read_var(reg._CPACR);
+            read_var(reg._DACR);
+            read_var(reg._DBGDSCR);
+            read_var(reg._IFSR);
+            read_var(reg._IFAR);
+            read_var(reg._DFSR);
+            read_var(reg._DFAR);
+            _thread_regs.insert({reg._thread_id, reg});
         }
     }
 
-    std::vector<threadRegInfoThreadReg>& threadRegInfo::threadRegs()
+    std::unordered_map<uint32_t, threadRegInfoThreadReg>& threadRegInfo::threadRegs()
     {
         return _thread_regs;
     }

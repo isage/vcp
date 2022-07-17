@@ -4,7 +4,7 @@
 #include <cstdint>
 #include <string>
 #include <array>
-#include <vector>
+#include <unordered_map>
 
 namespace vita
 {
@@ -63,10 +63,10 @@ class threadRegInfoThreadReg {
 class threadRegInfo {
     public:
         threadRegInfo(void* buf, uint32_t size);
-        std::vector<threadRegInfoThreadReg>& threadRegs();
+        std::unordered_map<uint32_t, threadRegInfoThreadReg>& threadRegs();
 
     private:
-        std::vector<threadRegInfoThreadReg> _thread_regs;
+        std::unordered_map<uint32_t, threadRegInfoThreadReg> _thread_regs;
 }; // threadRegInfo
 
 }; // coredump
