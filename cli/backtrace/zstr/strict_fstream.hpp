@@ -32,8 +32,6 @@ namespace strict_fstream
 #warning "Working around broken strerror_r() implementation in musl, remove when musl is fixed"
 #endif
 
-
-
 // Non-gnu variants of strerror_* don't necessarily null-terminate if
 // truncating, so we have to do things manually.
 inline std::string trim_to_null(const std::vector<char> &buff)
@@ -66,7 +64,7 @@ static std::string strerror()
     } else {
         return "Unknown error (" + std::to_string(err_num) + ")";
     }
-#elif ((_POSIX_C_SOURCE >= 200112L || _XOPEN_SOURCE >= 600 || defined(__APPLE__)) && ! _GNU_SOURCE) || defined(__MUSL__) || defined(__vita__)
+#elif ((_POSIX_C_SOURCE >= 200112L || _XOPEN_SOURCE >= 600 || defined(__APPLE__)) && ! _GNU_SOURCE) || defined(__MUSL__)
 // XSI-compliant strerror_r()
     const int err_num = errno; // See above
     if (strerror_r(err_num, buff.data(), buff.size()) == 0) {

@@ -1,3 +1,4 @@
+#define _POSIX_C_SOURCE 200112L // strerror_r in strict_fstream
 #include <coredumpparser.hpp>
 #include <iostream>
 #include <iomanip>

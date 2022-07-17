@@ -84,6 +84,7 @@ struct threadInfo {
 
         for (uint32_t i = 0; i < count; ++i)
         {
+            threadInfoThread thread;
             in.seekg(4, std::ios_base::cur);
 
             read_var(_threads[i]._id);

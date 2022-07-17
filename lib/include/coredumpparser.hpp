@@ -116,6 +116,8 @@ class parser
         std::unique_ptr<threadRegInfo> getThreadRegInfo();
         std::unique_ptr<gpuInfo> getGpuInfo();
 
+        ::ELFIO::elfio* getReader();
+
     private:
         ::ELFIO::elfio _reader;
         std::string _filename;

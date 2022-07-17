@@ -28,6 +28,10 @@ namespace coredump
 
     parser::~parser() {}
 
+    ::ELFIO::elfio* parser::getReader()
+    {
+        return &_reader;
+    }
 
     bool parser::parse()
     {
