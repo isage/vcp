@@ -1,6 +1,7 @@
 #include "info_moduleinfo.hpp"
 
 #include <cstdint>
+#include <array>
 #include <vector>
 #include <sstream>
 #include <algorithm>
