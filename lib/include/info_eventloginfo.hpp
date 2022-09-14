@@ -19,12 +19,13 @@ class eventLogInfoEventType1 {
     public:
     uint32_t errorCode();
     uint32_t pid();
-    uint32_t budgetType();
+    uint32_t appType();
+    std::string readableAppType();
     std::string& titleId();
   private:
     uint32_t _error_code;
     uint32_t _pid;
-    uint32_t _budget_type;
+    uint32_t _app_type;
     std::string _title_id;
 };
 

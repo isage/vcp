@@ -491,10 +491,13 @@ namespace coredump {
     };
     if(auto e = std::get_if<vita::coredump::eventLogInfoEventType1>(&p.event()))
     {
-      j["data"] = json {
+      j["data"] = json{
         {"error_code", hextostring0x(8,e->errorCode())},
         {"pid", hextostring0x(8,e->pid())},
-        {"budget_type", hextostring0x(8,e->budgetType())},
+        {"app_type", json{
+            {"value", hextostring0x(8,e->appType())},
+            {"description", e->readableAppType()},
+        }},
         {"title_id",  e->titleId()},
       };
     }

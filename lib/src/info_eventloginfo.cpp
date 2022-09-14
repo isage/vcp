@@ -29,11 +29,11 @@ struct eventLogInfo_eventtype2 { // 0x04
 
 struct eventLogInfo_eventtype3 { // 0x54
     uint32_t error_code;
-    char ip1[0x10];
-    char ip2[0x10];
-    char ip3[0x10];
-    char ip4[0x10];
-    char ip5[0x10];
+    char ip[0x10];
+    char netmask[0x10];
+    char default_route[0x10];
+    char primary_dns[0x10];
+    char secondary_dns[0x10];
 };
 
 struct eventLogInfo_event { // variable size
@@ -92,7 +92,7 @@ struct eventLogInfo {
                   auto d = std::get_if<eventLogInfoEventType1>(&_events[i]._event_data);
                   read_var(d->_error_code);
                   read_var(d->_pid);
-                  read_var(d->_budget_type);
+                  read_var(d->_app_type);
                   in.seekg(4, std::ios_base::cur);
                   read_string(d->_title_id, 12);
                   break;
@@ -132,14 +132,14 @@ struct eventLogInfo {
 
     std::string eventLogInfoEvent::facility()
     {
-        switch(_facility_id)
+        switch((eventLogFacility)_facility_id)
         {
-            case 10001:
-                return std::string("Processmgr");
-            case 20000:
-                return std::string("Shell");
-            case 20001:
-                return std::string("WlanBt");
+            case eventLogFacility::SYSTEM:
+                return std::string("System");
+            case eventLogFacility::NETWORK:
+                return std::string("Network");
+            case eventLogFacility::WLANBT:
+                return std::string("Device");
             default:
                 return std::string("unknown");
         }
@@ -158,13 +158,27 @@ struct eventLogInfo {
                 switch(_type)
                 {
                     case 1:
-                        return std::string("process create");
+                        return std::string("Process Spawn");
                     case 2:
-                        return std::string("process exit");
+                        return std::string("Process Exit");
                     case 3:
-                        return std::string("process kill");
+                        return std::string("Process Kill");
                     case 4:
-                        return std::string("process coredump");
+                        return std::string("Process Suspend");
+                    case 5:
+                        return std::string("Process Resume");
+                    case 6:
+                        return std::string("Load Exec");
+                    default:
+                        return std::string("unknown");
+                }
+            case 20000:
+                switch(_type)
+                {
+                    case 1:
+                        return std::string("Network connection acquired");
+                    case 2:
+                        return std::string("Network connection lost");
                     default:
                         return std::string("unknown");
                 }
@@ -172,13 +186,16 @@ struct eventLogInfo {
                 switch(_type)
                 {
                     case 1:
-                        return std::string("suspend");
+                        return std::string("Wi-Fi enabled");
                     case 2:
-                        return std::string("resume");
+                        return std::string("Wi-Fi disabled");
+                    case 3:
+                        return std::string("BT enabled");
+                    case 4:
+                        return std::string("BT disabled");
                     default:
                         return std::string("unknown");
                 }
-            case 20000:
             default:
                 return std::string("unknown");
         }
@@ -219,9 +236,25 @@ struct eventLogInfo {
         return _pid;
     }
 
-    uint32_t eventLogInfoEventType1::budgetType()
+    uint32_t eventLogInfoEventType1::appType()
     {
-        return _budget_type;
+        return _app_type;
+    }
+
+    std::string eventLogInfoEventType1::readableAppType()
+    {
+        switch(_app_type)
+        {
+            case 0x01000000:
+                return std::string("Game");
+            case 0x02000000:
+                return std::string("Mini Application");
+            case 0x04000000:
+                return std::string("System Application");
+            case 0x05000000:
+                return std::string("Kernel");
+        }
+        return std::string("Unknown");
     }
 
     std::string& eventLogInfoEventType1::titleId()

@@ -233,6 +233,12 @@ enum class threadStatus : uint32_t {
     THREAD_STATUS_INSIDE_SYSCALL = 0x80000000
 };
 
+enum class eventLogFacility {
+    SYSTEM  = 10001,
+    NETWORK = 20000,
+    WLANBT  = 20001
+};
+
 }; // coredump
 }; // vita
 
