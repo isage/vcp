@@ -37,6 +37,7 @@ THE SOFTWARE.
 #include <algorithm>
 #include <vector>
 #include <deque>
+#include <cstdint>
 
 #include <elfio/elf_types.hpp>
 #include <elfio/elfio_version.hpp>
